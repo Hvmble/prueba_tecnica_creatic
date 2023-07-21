@@ -8,6 +8,7 @@ class Server {
         this.port = process.env.PORT
         this.path = {
             users: '/users',
+            appointment: '/appointments',
         }
 
         //* Database conection
@@ -32,6 +33,7 @@ class Server {
 
     routes() {
         this.app.use(this.path.users, require('../routes/users.routes'))
+        this.app.use(this.path.appointment, require('../routes/appointment.routes'))
     }
 
     start() {
