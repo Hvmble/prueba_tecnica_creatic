@@ -14,9 +14,16 @@ const usersPost = async (req = request, res = response) => {
     await user.save();
     res.json({ success: true, id: user.id, message: "User created" })
 }
+const usersGet = async (req = request, res = response) => {
+    const { id } = req.params
+    const users = await User.findByPk(id)
+    res.json({ success: true, users })
+
+}
 
 
 
 module.exports = {
     usersPost,
+    usersGet
 }

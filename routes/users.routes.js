@@ -17,6 +17,6 @@ router.post(
     ],
     usersPost
 );
-
+router.get("/:id", [check("id").custom(existUser),validateInputs],usersGet)
 
 module.exports = router;
