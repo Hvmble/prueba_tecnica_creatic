@@ -12,7 +12,7 @@ const usersPost = async (req = request, res = response) => {
     const salt = bcrypt.genSaltSync()
     user.password = bcrypt.hashSync(password, salt)
     await user.save();
-    res.json({ success: true, id: user.id, message: "User created" })
+    res.json({ success: true, id: user.id, message: "User created successfully" })
 }
 const usersGet = async (req = request, res = response) => {
     const { id } = req.params
@@ -21,9 +21,26 @@ const usersGet = async (req = request, res = response) => {
 
 }
 
+const usersPut = async (req = request, res = response) => {
+    const { id } = req.params
+    const user = await User.findByPk(id)
+    const { password, email, ...data } = req.body
 
+    if (email && user.email != email) {
+        data.email = email
+    }
+
+    if (password) {
+        const salt = bcrypt.genSaltSync()
+        data.password = bcrypt.hashSync(password, salt)
+    }
+    await User.update(data, { where: { id } })
+    res.json({ success: true, id, message: "User updated successfully" })
+
+}
 
 module.exports = {
     usersPost,
-    usersGet
+    usersGet,
+    usersPut
 }
